@@ -1,6 +1,4 @@
-module Shapes (
-  Shape
-) where
+module Shapes where
 
 import Linear.V3
 
