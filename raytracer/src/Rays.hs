@@ -1,10 +1,12 @@
 module Rays (
-  ray
+  ray,
+  realQuadraticRoots
 )
 where
 
 import Linear.Metric
 import Linear.V3
+import Data.List( nub )
 import Shapes
 
 kEpsilon = 0.000001
@@ -28,3 +30,12 @@ hitDistances (Ray {rayOrigin = o, rayDirection = l})
 --hitDistances ray sphere@(Sphere _ _)
 hitDistances (Ray {rayOrigin = o, rayDirection = l})
  (Sphere {sphereCenter = c, sphereRadius = r}) = undefined
+
+realQuadraticRoots :: Double -> Double -> Double -> Maybe [Double]
+realQuadraticRoots 0 _ _ = Nothing
+realQuadraticRoots a b c
+  | discriminant < 0 = Nothing
+  | otherwise = Just (nub [formula (+), formula (-)])
+  where
+    formula sign = ((-b) `sign` (sqrt discriminant)) / (2*a)
+    discriminant = (b*b) - (4*a*c)
