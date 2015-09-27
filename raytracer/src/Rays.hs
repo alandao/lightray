@@ -1,7 +1,4 @@
-module Rays (
-  ray,
-  realQuadraticRoots
-)
+module Rays
 where
 
 import Linear.Metric
@@ -27,9 +24,15 @@ hitDistances (Ray {rayOrigin = o, rayDirection = l})
     | otherwise = Just [t]
     where t = (dot (p - o) n) /
               (dot l n)
---hitDistances ray sphere@(Sphere _ _)
 hitDistances (Ray {rayOrigin = o, rayDirection = l})
- (Sphere {sphereCenter = c, sphereRadius = r}) = undefined
+ (Sphere {sphereCenter = c, sphereRadius = r})
+  | hits == Just [] = Nothing
+  | otherwise = hits
+ where x = dot l l
+       y = 2 * (dot l (o - c))
+       z = (dot (o - c) (o - c)) - (r * r)
+       hits = fmap (filter (>kEpsilon)) $ realQuadraticRoots x y z
+
 
 realQuadraticRoots :: Double -> Double -> Double -> Maybe [Double]
 realQuadraticRoots 0 _ _ = Nothing
