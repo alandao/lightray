@@ -1,7 +1,7 @@
 module Main where
 
-import Rays
-import Shapes
+import Ray
+import Object
 
 main :: IO ()
 main = do
