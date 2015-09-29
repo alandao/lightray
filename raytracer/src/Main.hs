@@ -16,9 +16,9 @@ viewplane = ViewPlane { _viewPlaneWidth = 100
                       , _viewPlaneSize = 1
                       , _viewPlaneGamma = 1}
 
-objects = [ Object      { objectShape = Sphere { sphereCenter = V3 0 5 0
-                                              , sphereRadius = 1}
-                        , objectColour = Colour.cyan } ]
+objects = [ Object      { _objectShape = Sphere { _sphereCenter = V3 0 5 0
+                                                , _sphereRadius = 1}
+                        , _objectColour = Colour.cyan } ]
 
 
 main :: IO ()

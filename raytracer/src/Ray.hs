@@ -1,6 +1,8 @@
+{-# LANGUAGE TemplateHaskell #-}
 module Ray where
 -- ^The 'Ray' module deals with rays that collide with objects.
 
+import Control.Lens
 import Linear.Metric
 import Linear.V3
 import Data.List( nub )
@@ -8,24 +10,27 @@ import Object
 
 kEpsilon = 0.000001
 
---rayDirection will always be normalized to 1.
-data Ray = Ray { rayOrigin :: V3 Double
-               , rayDirection :: V3 Double }
+--_rayDirection will always be normalized to 1.
+data Ray = Ray { _rayOrigin :: V3 Double
+               , _rayDirection :: V3 Double }
                deriving (Show)
+
+makeLenses ''Ray
+
 ray :: V3 Double -> V3 Double -> Ray
-ray orig dir = Ray {rayOrigin = orig, rayDirection = (normalize dir)}
+ray orig dir = Ray {_rayOrigin = orig, _rayDirection = (normalize dir)}
 
 hitDistances :: Ray -> Shape -> Maybe [Double]
 -- a plane should only return one hit point.
-hitDistances (Ray {rayOrigin = o, rayDirection = l})
-  (Plane {planePoint = p, planeNormal = n})
+hitDistances (Ray {_rayOrigin = o, _rayDirection = l})
+  (Plane {_planePoint = p, _planeNormal = n})
     | isInfinite t = Just [kEpsilon]
     | t < kEpsilon = Nothing
     | otherwise = Just [t]
     where t = (dot (p - o) n) /
               (dot l n)
-hitDistances (Ray {rayOrigin = o, rayDirection = l})
- (Sphere {sphereCenter = c, sphereRadius = r})
+hitDistances (Ray {_rayOrigin = o, _rayDirection = l})
+ (Sphere {_sphereCenter = c, _sphereRadius = r})
   | hits == Just [] = Nothing
   | otherwise = hits
  where x = dot l l
