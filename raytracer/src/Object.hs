@@ -12,6 +12,6 @@ data Shape =    Plane   { planePoint    :: V3 Double
 
 
 data Object = Object    { objectShape :: Shape
-                        , objectColor :: Colour Double}
+                        , objectColour :: Colour Double}
 
 --we'll add linear transformations later
