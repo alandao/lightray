@@ -20,4 +20,5 @@ executable raytracer
   build-depends:       base >= 4.7 && < 5,
                        lens,
                        linear,
-                       colour
+                       colour,
+                       JuicyPixels
