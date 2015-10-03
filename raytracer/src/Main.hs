@@ -7,9 +7,8 @@ import Data.Colour.Names as Colour
 
 
 --test world
-world = World { _worldViewPlane = viewplane
-              , _worldBackgroundColor = Colour.black
-              , _worldObjects = objects}
+world = World { _worldBackgroundColor = Colour.black
+              , _worldObjects = objects }
 
 viewplane = ViewPlane { _viewPlaneWidth = 100
                       , _viewPlaneHeight = 100
