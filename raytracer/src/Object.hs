@@ -4,7 +4,7 @@ module Object where
 -- By world, we mean any objects that conribute to the image.
 
 import Control.Lens
-import Data.Colour
+import Data.Colour.SRGB.Linear
 import Linear.V3
 
 data Shape =    Plane   { _planePoint    :: V3 Double
