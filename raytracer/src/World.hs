@@ -57,3 +57,5 @@ colorFrom world ray
     dist x y = compare (fmap minimum (snd x)) (fmap minimum (snd y))
     collisions = fmap (hitDistances ray) (fmap _objectShape objects)
     objects = _worldObjects world
+
+imgXYtoRayOrig :: Int -> Int -> Camera -> V3 Double 
