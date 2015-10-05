@@ -58,4 +58,14 @@ colorFrom world ray
     collisions = fmap (hitDistances ray) (fmap _objectShape objects)
     objects = _worldObjects world
 
-imgXYtoRayOrig :: Int -> Int -> Camera -> V3 Double 
+imgXYtoRayOrig :: Int -> Int -> Camera -> V3 Double
+imgXYtoRayOrig x y camera = case camera of
+                                OrthogonalCamera {} ->
+    where
+        --anchor is at topleft of image.
+        anchor = camPos + (V3 (-width*s/2) (height*s/2) 0)
+        camPos = _camPosition camera
+        s = _viewPlaneSize viewplane
+        width = _viewPlaneWidth viewplane
+        height = _viewPlaneHeight viewplane
+        viewplane = _camViewPlane camera
