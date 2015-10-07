@@ -26,8 +26,8 @@ ray orig dir = Ray {_rayOrigin = orig, _rayDirection = (normalize dir)}
 
 --If there are no collisions, display background color.
 --otherwise, return the color from closest shape
-colorFrom :: World -> Ray -> Colour Double
-colorFrom world ray
+trace :: World -> Ray -> Colour Double
+trace world ray
     | all (\x -> x == Nothing) collisions = _worldBackgroundColor
                                           world
     | otherwise = _objectColour $ fst $
