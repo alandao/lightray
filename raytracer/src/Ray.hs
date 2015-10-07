@@ -2,11 +2,15 @@
 module Ray where
 -- ^The 'Ray' module deals with rays that collide with objects.
 
+import GeometricShape
+import World
 import Control.Lens
-import Linear.Metric
-import Linear.V3
-import Data.List( nub )
-import Object
+import Linear.Metric ( dot, normalize )
+import Linear.V3 (V3)
+import Data.Colour.SRGB (Colour)
+import Data.Foldable (minimumBy)
+import Data.List (nub)
+
 
 kEpsilon = 0.000001
 
@@ -20,7 +24,22 @@ makeLenses ''Ray
 ray :: V3 Double -> V3 Double -> Ray
 ray orig dir = Ray {_rayOrigin = orig, _rayDirection = (normalize dir)}
 
-hitDistances :: Ray -> Shape -> Maybe [Double]
+--If there are no collisions, display background color.
+--otherwise, return the color from closest shape
+colorFrom :: World -> Ray -> Colour Double
+colorFrom world ray
+    | all (\x -> x == Nothing) collisions = _worldBackgroundColor
+                                          world
+    | otherwise = _objectColour $ fst $
+                minimumBy dist (zip objects collisions)
+  where
+--    dist :: (Object, Maybe [Double]) -> (Object, Maybe [Double]) -> Ordering
+    dist x y = compare (fmap minimum (snd x)) (fmap minimum (snd y))
+    collisions = fmap (hitDistances ray) (fmap _objectShape objects)
+    objects = _worldObjects world
+
+
+hitDistances :: Ray -> GeometricPrimitive -> Maybe [Double]
 -- a plane should only return one hit point.
 hitDistances (Ray {_rayOrigin = o, _rayDirection = l})
   (Plane {_planePoint = p, _planeNormal = n})
