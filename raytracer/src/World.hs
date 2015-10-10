@@ -15,6 +15,5 @@ data World = World  { _worldBackgroundColor :: Colour Double
                     , _worldObjects :: [Object]
                     }
 
-
 makeLenses ''Object
 makeLenses ''World
