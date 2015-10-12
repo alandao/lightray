@@ -1,8 +1,8 @@
 module Main where
 
-import Camera
-import World
-import GeometricShape
+import Lightray.Camera
+import Lightray.World
+import Lightray.GeometricShape
 import Data.Colour.Names
 import Codec.Picture (writeBitmap)
 import System.Directory (getCurrentDirectory)
@@ -10,7 +10,7 @@ import System.Directory (getCurrentDirectory)
 --temp imports
 import Linear.V3 (V3(..))
 
-world = World { _worldBackgroundColor = azure, _worldObjects = objects}
+world = World { _worldBackgroundColor = white, _worldObjects = objects}
 objects = [Object { _objectShape = Sphere {_sphereCenter = V3 0 0 4, _sphereRadius = 2},
                     _objectColour = red}]
 

@@ -1,9 +1,9 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module Camera where
+module Lightray.Camera where
 
-import World
-import Ray
+import Lightray.World
+import Lightray.Ray
 import Control.Lens
 import Codec.Picture (Image, Pixel8, PixelRGB8(..), generateImage)
 import Data.Colour.SRGB ( channelRed, channelGreen, channelBlue, toSRGB24)
@@ -38,7 +38,7 @@ colorAt world camera x y = PixelRGB8 red green blue
         blue = channelBlue rgbTuple
         rgbTuple = toSRGB24 $ trace world ray
         --atm ray goes straight into z dimension
-        ray = Ray.ray (eyeRayOrig x y camera) (V3 0 0 1)
+        ray = Lightray.Ray.ray (eyeRayOrig x y camera) (V3 0 0 1)
 
 
 eyeRayOrig :: Int -> Int -> Camera -> V3 Double

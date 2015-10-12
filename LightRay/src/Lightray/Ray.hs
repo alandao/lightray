@@ -1,9 +1,9 @@
 {-# LANGUAGE TemplateHaskell #-}
-module Ray where
+module Lightray.Ray where
 -- ^The 'Ray' module deals with rays that collide with objects.
 
-import GeometricShape
-import World
+import Lightray.GeometricShape
+import Lightray.World
 import Control.Lens
 import Linear.Metric ( dot, normalize )
 import Linear.V3 (V3)
