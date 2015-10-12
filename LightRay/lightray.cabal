@@ -1,8 +1,8 @@
-name:                raytracer
+name:                lightray
 version:             0.1.0.0
 synopsis:            A lightweight raytracer
 description:         Please see README.md
-homepage:            http://github.com/githubuser/raytracer#readme
+homepage:            http://github.com/alandao/lightray#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Alan Dao
