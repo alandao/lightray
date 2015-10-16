@@ -7,7 +7,9 @@ import Lightray.Ray
 import Control.Lens
 import Codec.Picture (Image, Pixel8, PixelRGB8(..), generateImage)
 import Data.Colour.SRGB ( channelRed, channelGreen, channelBlue, toSRGB24)
-import Linear.V3 (V3(..))
+import Linear.V3 (V3(..), cross)
+import Linear.Metric (normalize)
+import Linear.Vector((*^))
 
 data ViewPlane = ViewPlane  { _viewPlaneWidth :: Int
                             , _viewPlaneHeight :: Int
@@ -16,9 +18,15 @@ data ViewPlane = ViewPlane  { _viewPlaneWidth :: Int
                             }
 data Camera = OrthogonalCamera  { _camViewPlane :: ViewPlane
                                 , _camPosition :: V3 Double
-                                , _camEulerAngle :: V3 Double
+                                , _camLookPoint :: V3 Double
+                                , _camUpVector :: V3 Double
                                 }
-            | PerspectiveCamera
+            | PerspectiveCamera { _camViewPlane :: ViewPlane
+                                , _camPosition :: V3 Double
+                                , _camLookPoint :: V3 Double
+                                , _camUpVector :: V3 Double
+                                , _camViewPlaneDistance :: Double
+            }
 
 makeLenses ''ViewPlane
 makeLenses ''Camera
@@ -37,21 +45,22 @@ colorAt world camera x y = PixelRGB8 red green blue
         green = channelGreen rgbTuple
         blue = channelBlue rgbTuple
         rgbTuple = toSRGB24 $ trace world ray
-        --atm ray goes straight into z dimension
-        ray = Lightray.Ray.ray (eyeRayOrig x y camera) (V3 0 0 1)
+        ray = primaryRay row col camera
+        row = x
+        col = (camera^.camViewPlane^.viewPlaneHeight - 1) - y
 
 
-eyeRayOrig :: Int -> Int -> Camera -> V3 Double
-eyeRayOrig x y camera = case camera of
-                                OrthogonalCamera {} -> anchor + delta
+primaryRay :: Int -> Int -> Camera -> Ray
+primaryRay row col camera@(PerspectiveCamera {}) = ray camPos dir
     where
-        --will revise this later to support rotating.
-        --anchor is at topleft of image. atm viewplane is at 0
-        delta = V3 (s * (fromIntegral x)) (s * (fromIntegral (-y))) 0
-        anchor = camPos + (V3 ((fromIntegral (-width))*s/2.0)
-                ((fromIntegral height)*s/2.0) 0)
-        camPos = _camPosition camera
-        s = _viewPlaneSize viewplane
-        width = _viewPlaneWidth viewplane
-        height = _viewPlaneHeight viewplane
-        viewplane = _camViewPlane camera
+        dir = (xv *^ u) + (yv *^ v) - ((_camViewPlaneDistance camera) *^ w)
+        xv = size * ((fromIntegral col) - (fromIntegral width)/2)
+        yv = size * ((fromIntegral row) - (fromIntegral height)/2)
+        w = normalize (camPos - camLookAt)
+        u = normalize (cross (camera^.camUpVector) w)
+        v = cross w u
+        width = camera^.camViewPlane^.viewPlaneWidth
+        height = camera^.camViewPlane^.viewPlaneHeight
+        camPos = camera^.camPosition
+        camLookAt = camera^.camLookPoint
+        size = camera^.camViewPlane^.viewPlaneSize

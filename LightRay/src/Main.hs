@@ -10,18 +10,22 @@ import System.Directory (getCurrentDirectory)
 --temp imports
 import Linear.V3 (V3(..))
 
-world = World { _worldBackgroundColor = white, _worldObjects = objects}
-objects = [Object { _objectShape = Sphere {_sphereCenter = V3 0 0 4, _sphereRadius = 2},
-                    _objectColour = red}]
+world = World { _worldBackgroundColor = blue, _worldObjects = objects}
+objects = [Object { _objectShape = Sphere {_sphereCenter = V3 0 0 (-4), _sphereRadius = 2},
+                    _objectColour = red}
+          , Object { _objectShape = Sphere {_sphereCenter = V3 0 0 (-3.5), _sphereRadius = 2},
+                    _objectColour = green}]
 
-camera = OrthogonalCamera  { _camViewPlane = viewplane
-                                , _camPosition = V3 0 0 0
-                                , _camEulerAngle = V3 0 0 0
-                                }
+camera = PerspectiveCamera { _camViewPlane = viewplane
+                    , _camPosition = V3 0 0 0
+                    , _camLookPoint = V3 0 0 (-1)
+                    , _camUpVector = V3 0 1 0
+                    , _camViewPlaneDistance = 2.0
+}
 
-viewplane = ViewPlane { _viewPlaneWidth = 100
-                            , _viewPlaneHeight = 100
-                            , _viewPlaneSize = 0.5
+viewplane = ViewPlane { _viewPlaneWidth = 300
+                            , _viewPlaneHeight = 300
+                            , _viewPlaneSize = 0.2
                             , _viewPlaneGamma = 2.6
                             }
 main :: IO ()
