@@ -11,7 +11,7 @@ import System.Directory (getCurrentDirectory)
 import Linear.V3 (V3(..))
 
 world = World { _worldBackgroundColor = blue, _worldObjects = objects}
-objects = [Object { _objectShape = Sphere {_sphereCenter = V3 0 0 (-4), _sphereRadius = 2},
+objects = [Object { _objectShape = Sphere {_sphereCenter = V3 0 0 (-7.0), _sphereRadius = 2},
                     _objectColour = red}
           , Object { _objectShape = Sphere {_sphereCenter = V3 0 0 (-3.5), _sphereRadius = 2},
                     _objectColour = green}]
