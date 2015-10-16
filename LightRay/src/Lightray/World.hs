@@ -5,12 +5,13 @@ module Lightray.World where
 
 import Lightray.GeometricShape
 import Control.Lens
-import Data.Colour.SRGB (Colour)
-
+import Data.Colour.SRGB (Colour(..))
 
 data Object = Object    { _objectShape :: GeometricPrimitive
                         , _objectColour :: Colour Double}
 
+instance Show Object where
+    show x = "Object: " ++ (show (_objectShape x))
 data World = World  { _worldBackgroundColor :: Colour Double
                     , _worldObjects :: [Object]
                     }

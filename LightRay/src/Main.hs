@@ -11,14 +11,14 @@ import System.Directory (getCurrentDirectory)
 import Linear.V3 (V3(..))
 
 world = World { _worldBackgroundColor = blue, _worldObjects = objects}
-objects = [Object { _objectShape = Sphere {_sphereCenter = V3 0 0 (-7.0), _sphereRadius = 2},
-                    _objectColour = red}
-          , Object { _objectShape = Sphere {_sphereCenter = V3 0 0 (-3.5), _sphereRadius = 2},
-                    _objectColour = green}]
+objects = [ Object { _objectShape = Sphere {_sphereCenter = V3 0 0 10001,
+            _sphereRadius = 10000}, _objectColour = pink },
+            Object { _objectShape = Sphere {_sphereCenter = V3 (-10010) 0 0, _sphereRadius = 10000}, _objectColour = green},
+            Object { _objectShape = Sphere {_sphereCenter = V3 0 10010 0, _sphereRadius = 10000}, _objectColour = red}]
 
 camera = PerspectiveCamera { _camViewPlane = viewplane
                     , _camPosition = V3 0 0 0
-                    , _camLookPoint = V3 0 0 (-1)
+                    , _camLookPoint = V3 0 0 1
                     , _camUpVector = V3 0 1 0
                     , _camViewPlaneDistance = 2.0
 }

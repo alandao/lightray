@@ -11,6 +11,8 @@ import Data.Colour.SRGB (Colour)
 import Data.Foldable (minimumBy)
 import Data.List (nub)
 
+import Debug.Trace
+
 
 kEpsilon = 0.000001
 
@@ -28,15 +30,21 @@ ray orig dir = Ray {_rayOrigin = orig, _rayDirection = (normalize dir)}
 --otherwise, return the color from closest shape
 trace :: World -> Ray -> Colour Double
 trace world ray
-    | all (\x -> x == Nothing) collisions = _worldBackgroundColor
-                                          world
-    | otherwise = _objectColour $ fst $
-                minimumBy dist (zip objects collisions)
-  where
---    dist :: (Object, Maybe [Double]) -> (Object, Maybe [Double]) -> Ordering
-    dist x y = compare (fmap minimum (snd x)) (fmap minimum (snd y))
-    collisions = fmap (hitDistances ray) (fmap _objectShape objects)
-    objects = _worldObjects world
+    | all (\x -> x == Nothing) collisions = world^.worldBackgroundColor
+    | otherwise = _objectColour $ minimumBy (compareObject ray) (world^.worldObjects)
+    where
+        collisions = fmap (hitDistances ray) $ fmap _objectShape (world^.worldObjects)
+
+compareObject r a b = distCompare (fmap minimum hitDistA)
+            (fmap minimum hitDistB)
+    where
+        -- in the case of distCompare, Nothing is ALWAYS greater than Just anything
+        distCompare Nothing (Just _) = GT
+        distCompare (Just _) Nothing = LT
+        distCompare x y = compare x y
+        hitDistA = hitDistances r (a^.objectShape)
+        hitDistB = hitDistances r (b^.objectShape)
+
 
 
 hitDistances :: Ray -> GeometricPrimitive -> Maybe [Double]
@@ -53,10 +61,11 @@ hitDistances (Ray {_rayOrigin = o, _rayDirection = l})
   | hits == Just [] = Nothing
   | otherwise = hits
  where x = dot l l
-       y = 2 * (dot l (o - c))
+       y = dot (2*(o - c)) l
        z = (dot (o - c) (o - c)) - (r * r)
        hits = fmap (filter (>kEpsilon)) $ realQuadraticRoots x y z
 
+--helper functions
 
 realQuadraticRoots :: Double -> Double -> Double -> Maybe [Double]
 realQuadraticRoots 0 _ _ = Nothing
