@@ -51,7 +51,7 @@ hitDistances :: Ray -> GeometricPrimitive -> Maybe [Double]
 -- a plane should only return one hit point.
 hitDistances (Ray {_rayOrigin = o, _rayDirection = l})
   (Plane {_planePoint = p, _planeNormal = n})
-    | isInfinite t = Just [kEpsilon]
+    | isInfinite t = Nothing
     | t < kEpsilon = Nothing
     | otherwise = Just [t]
     where t = (dot (p - o) n) /
