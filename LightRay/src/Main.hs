@@ -11,20 +11,29 @@ import System.Directory (getCurrentDirectory)
 import Linear.V3 (V3(..))
 
 world = World { _worldBackgroundColor = blue, _worldObjects = objects}
-objects = [ Object { _objectShape = Sphere {_sphereCenter = V3 0 0 10001,
-            _sphereRadius = 10000}, _objectColour = pink },
-            Object { _objectShape = Sphere {_sphereCenter = V3 (-10010) 0 0, _sphereRadius = 10000}, _objectColour = green},
-            Object { _objectShape = Sphere {_sphereCenter = V3 0 10010 0, _sphereRadius = 10000}, _objectColour = red}]
+objects = [ Object { _objectShape = Plane {_planePoint = V3 0 (-2) 0,
+            _planeNormal = V3 0 1 0}, _objectColour = white },
+            Object { _objectShape = Plane {_planePoint = V3 2 0 0, _planeNormal =
+            V3 1 0 0}, _objectColour = green},
+            Object { _objectShape = Plane {_planePoint = V3 (-2) 0 0, _planeNormal = V3 1 0 0}, _objectColour = red},
+            Object { _objectShape = Plane {_planePoint = V3 0 0 (-4), _planeNormal =
+            V3 0 0 1}, _objectColour = white},
+            Object { _objectShape = Plane {_planePoint = V3 0 2 0, _planeNormal =
+            V3 0 1 0}, _objectColour = white},
+            Object { _objectShape = Sphere {_sphereCenter = V3 (0.5) (0.5) (-3),
+            _sphereRadius = 1.0}, _objectColour = cyan},
+            Object { _objectShape = Sphere {_sphereCenter = V3 (-0.2) (-0.5) (-2),
+            _sphereRadius = 0.6 }, _objectColour = darkkhaki}]
 
 camera = PerspectiveCamera { _camViewPlane = viewplane
                     , _camPosition = V3 0 0 0
-                    , _camLookPoint = V3 0 0 1
+                    , _camLookPoint = V3 0 0 (-1)
                     , _camUpVector = V3 0 1 0
-                    , _camViewPlaneDistance = 2.0
+                    , _camViewPlaneDistance = 40
 }
 
-viewplane = ViewPlane { _viewPlaneWidth = 300
-                            , _viewPlaneHeight = 300
+viewplane = ViewPlane { _viewPlaneWidth = 640
+                            , _viewPlaneHeight = 360
                             , _viewPlaneSize = 0.2
                             , _viewPlaneGamma = 2.6
                             }
