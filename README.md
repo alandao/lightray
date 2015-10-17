@@ -3,7 +3,7 @@ A raytracer written in Haskell. Intended to be a rendering engine aka
 something similar to "Ogre3D".
 
 # Output
-![example][1]
+![Output](http://i.imgur.com/22ejzef.png)
 
 #Features
 Planes and spheres
@@ -23,5 +23,3 @@ Get stack at https://github.com/commercialhaskell/stack. Run "stack build" in
 the Lightray project folder where "Lightray.cabal" is located. Then run
 "stack exec -- Lightray". Currently, a file called "test.bmp" outputs in the
 project folder. "test.bmp" should look like the output above.
-
-    [1]: http://i.imgur.com/22ejzef.png
