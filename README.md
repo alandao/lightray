@@ -7,6 +7,7 @@ something similar to "Ogre3D".
 
 #Features
 Planes and spheres
+
 Perspective Camera
 
 # Issues
@@ -14,8 +15,11 @@ None so far
 
 # Work in Progress
 Lighting (right now)
+
 Reflection
+
 Refraction
+
 Optimizations
 
 # Installation
