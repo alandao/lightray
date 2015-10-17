@@ -45,9 +45,9 @@ colorAt world camera x y = PixelRGB8 red green blue
         green = channelGreen rgbTuple
         blue = channelBlue rgbTuple
         rgbTuple = toSRGB24 $ trace world ray
-        ray = primaryRay row col camera
-        row = x
-        col = (camera^.camViewPlane^.viewPlaneHeight - 1) - y
+        ray = primaryRay row col camera --convert juicypixel to ONB coordinates
+        row = (camera^.camViewPlane^.viewPlaneHeight - 1) - y
+        col = x
 
 
 primaryRay :: Int -> Int -> Camera -> Ray
