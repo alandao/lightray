@@ -2,12 +2,26 @@
 A raytracer written in Haskell. Intended to be a rendering engine aka
 something similar to "Ogre3D".
 
+# Output
+![example][1]
+
+#Features
+Planes and spheres
+Perspective Camera
+
 # Issues
-The trace function fails to get the color of the closest object.
+None so far
 
 # Work in Progress
-Perspective camera
+Lighting (right now)
+Reflection
+Refraction
+Optimizations
 
 # Installation
 Get stack at https://github.com/commercialhaskell/stack. Run "stack build" in
-this package.
+the Lightray project folder where "Lightray.cabal" is located. Then run
+"stack exec -- Lightray". Currently, a file called "test.bmp" outputs in the
+project folder. "test.bmp" should look like the output above.
+
+    [1]: http://i.imgur.com/22ejzef.png
