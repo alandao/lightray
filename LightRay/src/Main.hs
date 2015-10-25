@@ -7,7 +7,7 @@ import Data.Colour.Names
 import Codec.Picture (writeBitmap)
 import System.Directory (getCurrentDirectory)
 
---temp imports
+--temp imports, will write interface later.
 import Linear.V3 (V3(..))
 
 world = World { _worldBackgroundColor = blue, _worldObjects = objects}
