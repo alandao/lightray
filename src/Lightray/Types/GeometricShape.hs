@@ -1,5 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
-module Lightray.GeometricShape where
+module Lightray.Types.GeometricShape where
 
 import Control.Lens
 import Linear.V3 (V3)

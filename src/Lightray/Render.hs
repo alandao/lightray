@@ -1,35 +1,22 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module Lightray.Camera where
+module Lightray.Render where
 
-import Lightray.World
-import Lightray.Ray
+import Lightray.Types.World
+import Lightray.Types.Camera
+import Lightray.Types.Ray
+import Lightray.Intersection
 import Control.Lens
 import Codec.Picture (Image, Pixel8, PixelRGB8(..), generateImage)
 import Data.Colour.SRGB ( channelRed, channelGreen, channelBlue, toSRGB24)
+import Data.Foldable (minimumBy)
+import Data.Colour.SRGB (Colour)
+import Data.List (nub)
 import Linear.V3 (V3(..), cross)
 import Linear.Metric (normalize)
 import Linear.Vector((*^))
 
-data ViewPlane = ViewPlane  { _viewPlaneWidth :: Int
-                            , _viewPlaneHeight :: Int
-                            , _viewPlaneSize :: Double
-                            , _viewPlaneGamma :: Double
-                            }
-data Camera = OrthogonalCamera  { _camViewPlane :: ViewPlane
-                                , _camPosition :: V3 Double
-                                , _camLookPoint :: V3 Double
-                                , _camUpVector :: V3 Double
-                                }
-            | PerspectiveCamera { _camViewPlane :: ViewPlane
-                                , _camPosition :: V3 Double
-                                , _camLookPoint :: V3 Double
-                                , _camUpVector :: V3 Double
-                                , _camViewPlaneDistance :: Double
-            }
 
-makeLenses ''ViewPlane
-makeLenses ''Camera
 
 render :: World -> Camera -> Image PixelRGB8
 render world camera = generateImage (colorAt world camera) width height
@@ -64,3 +51,22 @@ primaryRay row col camera@(PerspectiveCamera {}) = ray camPos dir
         camPos = camera^.camPosition
         camLookAt = camera^.camLookPoint
         size = camera^.camViewPlane^.viewPlaneSize
+
+--If there are no collisions, display background color.
+--otherwise, return the color from closest shape
+trace :: World -> Ray -> Colour Double
+trace world ray
+    | all (\x -> x == Nothing) collisions = world^.worldBackgroundColor
+    | otherwise = _objectColour $ minimumBy (compareObject ray) (world^.worldObjects)
+    where
+        collisions = fmap (hitDistances ray) $ fmap _objectShape (world^.worldObjects)
+
+compareObject r a b = distCompare (fmap minimum hitDistA)
+            (fmap minimum hitDistB)
+    where
+        -- in the case of distCompare, Nothing is ALWAYS greater than Just anything
+        distCompare Nothing (Just _) = GT
+        distCompare (Just _) Nothing = LT
+        distCompare x y = compare x y
+        hitDistA = hitDistances r (a^.objectShape)
+        hitDistB = hitDistances r (b^.objectShape)

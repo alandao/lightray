@@ -1,9 +1,7 @@
 {-# LANGUAGE TemplateHaskell #-}
-module Lightray.World where
--- ^The 'World' module deals with the state of the world. This
--- module is responsible for creating and updating world types.
+module Lightray.Types.World where
 
-import Lightray.GeometricShape
+import Lightray.Types.GeometricShape
 import Control.Lens
 import Data.Colour.SRGB (Colour(..))
 
