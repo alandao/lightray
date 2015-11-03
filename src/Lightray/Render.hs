@@ -11,7 +11,6 @@ import Codec.Picture (Image, Pixel8, PixelRGB8(..), generateImage)
 import Data.Colour.SRGB ( channelRed, channelGreen, channelBlue, toSRGB24)
 import Data.Foldable (minimumBy)
 import Data.Colour.SRGB (Colour)
-import Data.List (nub)
 import Linear.V3 (V3(..), cross)
 import Linear.Metric (normalize)
 import Linear.Vector((*^))
@@ -57,11 +56,12 @@ primaryRay row col camera@(PerspectiveCamera {}) = ray camPos dir
 trace :: World -> Ray -> Colour Double
 trace world ray
     | all (\x -> x == Nothing) collisions = world^.worldBackgroundColor
-    | otherwise = _objectColour $ minimumBy (compareObject ray) (world^.worldObjects)
+    | otherwise = _objectColour $ minimumBy (compareObjectDist ray) (world^.worldObjects)
     where
         collisions = fmap (hitDistances ray) $ fmap _objectShape (world^.worldObjects)
 
-compareObject r a b = distCompare (fmap minimum hitDistA)
+compareObjectDist :: Ray -> Object -> Object -> Ordering
+compareObjectDist r a b = distCompare (fmap minimum hitDistA)
             (fmap minimum hitDistB)
     where
         -- in the case of distCompare, Nothing is ALWAYS greater than Just anything
