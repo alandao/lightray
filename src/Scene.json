@@ -1,0 +1,27 @@
+"backgroundColor": {
+    "red": 100,
+    "green": 100,
+    "blue": 255
+}
+"objects": [
+    {
+        "shape": {
+            "type": "plane",
+            "point": {
+                "x": 0.0,
+                "y": -2.0,
+                "z": 0.0
+            },
+            "normal": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            }
+        },
+        "colour": {
+            "red": 255,
+            "green": 255,
+            "blue": 255
+        }
+    }
+]

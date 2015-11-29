@@ -1,0 +1,2 @@
+--this module reads a JSON file which describes the initial scene for our game
+--to render.
