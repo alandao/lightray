@@ -1,6 +1,5 @@
 # LightRay
-A raytracer written in Haskell. Intended to be a rendering engine aka
-something similar to "Ogre3D".
+A raytracer written in Haskell.
 
 # Output
 ![Output](http://i.imgur.com/22ejzef.png)
@@ -9,18 +8,6 @@ something similar to "Ogre3D".
 Planes and spheres
 
 Perspective Camera
-
-# Issues
-None so far
-
-# Work in Progress
-Lighting (right now)
-
-Reflection
-
-Refraction
-
-Optimizations
 
 # Installation
 Get stack at https://github.com/commercialhaskell/stack. Run "stack build" in
