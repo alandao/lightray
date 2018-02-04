@@ -4,7 +4,7 @@ A raytracer written in Haskell.
 # Output
 ![Output](http://i.imgur.com/22ejzef.png)
 
-#Features
+# Features
 Planes and spheres
 
 Perspective Camera
